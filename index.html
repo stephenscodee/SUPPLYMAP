@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dependia - Visibilidad de Riesgo Operativo</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dependia</h1>
+            <p class="tagline">Visibilidad de riesgo operativo. Control real sobre dependencias de proveedores.</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab active" data-tab="dashboard">Dashboard</button>
+            <button class="tab" data-tab="suppliers">Proveedores</button>
+            <button class="tab" data-tab="processes">Procesos</button>
+            <button class="tab" data-tab="dependencies">Dependencias</button>
+            <button class="tab" data-tab="backup-plans">Planes B</button>
+        </nav>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="metrics-grid">
+                <div class="metric-card critical">
+                    <h3>Procesos con Dependencia Única</h3>
+                    <div class="metric-value" id="single-dependency-count">-</div>
+                    <p class="metric-label">Puntos de fallo críticos</p>
+                </div>
+
+                <div class="metric-card warning">
+                    <h3>Proveedores sin Plan B</h3>
+                    <div class="metric-value" id="no-backup-count">-</div>
+                    <p class="metric-label">Riesgo no mitigado</p>
+                </div>
+
+                <div class="metric-card info">
+                    <h3>Dependencias Críticas</h3>
+                    <div class="metric-value" id="critical-deps-count">-</div>
+                    <p class="metric-label">Sin esto, se detiene todo</p>
+                </div>
+
+                <div class="metric-card danger">
+                    <h3>Proveedores Alto Riesgo</h3>
+                    <div class="metric-value" id="high-risk-count">-</div>
+                    <p class="metric-label">Requieren atención inmediata</p>
+                </div>
+            </div>
+
+            <div class="summary-stats">
+                <div class="stat-box">
+                    <span class="stat-label">Total Proveedores</span>
+                    <span class="stat-value" id="total-suppliers">-</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Total Procesos</span>
+                    <span class="stat-value" id="total-processes">-</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Total Dependencias</span>
+                    <span class="stat-value" id="total-dependencies">-</span>
+                </div>
+            </div>
+
+            <div class="sections-grid">
+                <section class="risk-section">
+                    <h2>⚠️ Procesos con Dependencia Única</h2>
+                    <div id="single-dependency-list" class="risk-list">
+                        <p class="loading">Cargando...</p>
+                    </div>
+                </section>
+
+                <section class="risk-section">
+                    <h2>🚨 Proveedores sin Plan B</h2>
+                    <div id="no-backup-list" class="risk-list">
+                        <p class="loading">Cargando...</p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="impact-section">
+                <h2>Impacto Estimado Agregado</h2>
+                <div class="impact-grid">
+                    <div class="impact-box">
+                        <span class="impact-label">Tiempo de Recuperación Total</span>
+                        <span class="impact-value" id="total-recovery-time">-</span>
+                        <span class="impact-unit">horas</span>
+                    </div>
+                    <div class="impact-box">
+                        <span class="impact-label">Impacto Económico Total</span>
+                        <span class="impact-value" id="total-economic-impact">-</span>
+                        <span class="impact-unit">€</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Suppliers Tab -->
+        <div id="suppliers" class="tab-content">
+            <div class="section-header">
+                <h2>Proveedores</h2>
+                <button class="btn btn-primary" onclick="showSupplierForm()">+ Nuevo Proveedor</button>
+            </div>
+            <div id="suppliers-list" class="data-list">
+                <p class="loading">Cargando...</p>
+            </div>
+        </div>
+
+        <!-- Processes Tab -->
+        <div id="processes" class="tab-content">
+            <div class="section-header">
+                <h2>Procesos</h2>
+                <button class="btn btn-primary" onclick="showProcessForm()">+ Nuevo Proceso</button>
+            </div>
+            <div id="processes-list" class="data-list">
+                <p class="loading">Cargando...</p>
+            </div>
+        </div>
+
+        <!-- Dependencies Tab -->
+        <div id="dependencies" class="tab-content">
+            <div class="section-header">
+                <h2>Dependencias</h2>
+                <button class="btn btn-primary" onclick="showDependencyForm()">+ Nueva Dependencia</button>
+            </div>
+            <div id="dependencies-list" class="data-list">
+                <p class="loading">Cargando...</p>
+            </div>
+        </div>
+
+        <!-- Backup Plans Tab -->
+        <div id="backup-plans" class="tab-content">
+            <div class="section-header">
+                <h2>Planes B</h2>
+                <button class="btn btn-primary" onclick="showBackupPlanForm()">+ Nuevo Plan B</button>
+            </div>
+            <div id="backup-plans-list" class="data-list">
+                <p class="loading">Cargando...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals para formularios -->
+    <div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/suppliers.js"></script>
+    <script src="js/processes.js"></script>
+    <script src="js/dependencies.js"></script>
+    <script src="js/backup-plans.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
